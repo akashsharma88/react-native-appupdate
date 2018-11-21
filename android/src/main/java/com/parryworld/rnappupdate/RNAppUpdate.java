@@ -20,12 +20,14 @@ import java.util.Map;
 public class RNAppUpdate extends ReactContextBaseJavaModule {
 
     private String versionName = "1.0.0";
+    private String packageName;
     private int versionCode = 1;
 
     public RNAppUpdate(ReactApplicationContext reactContext) {
         super(reactContext);
         PackageInfo pInfo = null;
         try {
+            packageName = reactContext.getPackageName();
             pInfo = reactContext.getPackageManager().getPackageInfo(reactContext.getPackageName(), 0);
             versionName = pInfo.versionName;
             versionCode = pInfo.versionCode;
@@ -59,5 +61,16 @@ public class RNAppUpdate extends ReactContextBaseJavaModule {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setDataAndType(Uri.parse("file://" + file), "application/vnd.android.package-archive");
         getCurrentActivity().startActivity(intent);
+    }
+
+    @ReactMethod
+    public void gotoMarket() {
+        final String appPackageName = packageName;
+        try {
+            getCurrentActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            getCurrentActivity().startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
     }
 }
