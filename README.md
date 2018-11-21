@@ -18,6 +18,13 @@ react-native link react-native-appupdate
 react-native link react-native-fs
 ```
 ## Usage
+if you want to redirect to play store then use options
+```javascript
+gotoMarket:true,
+needUpdateApp:true,
+forceUpdateApp:false
+```
+
 ```javascript
 import { Alert } from 'react-native';
 import AppUpdate from 'react-native-appupdate';
