@@ -48,7 +48,11 @@ class AppUpdate {
       } else if (this.options.needUpdateApp) {
         this.options.needUpdateApp((isUpdate) => {
           if (isUpdate) {
-            this.downloadApk(remote);
+            if(this.options.gotoMarket){
+              RNAppUpdate.gotoMarket(); 
+            }else{
+              this.downloadApk(remote);
+            }
           }
         });
       }
